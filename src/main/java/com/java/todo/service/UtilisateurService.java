@@ -32,7 +32,13 @@ public class UtilisateurService {
 	}
 
 	public void deleteUser(Utilisateur user) {
-		utilisateurRepository.delete(user);
+		List<Utilisateur> a = utilisateurRepository.findAllByUsername(user.getUtilisateur_username());
+		if (a.size() == 1) {
+			utilisateurRepository.delete(a);
+		} else {
+			System.err.println("Impossible de supprimer cette utilisateur");
+		}
+
 	}
 
 
