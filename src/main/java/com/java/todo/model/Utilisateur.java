@@ -12,8 +12,10 @@ public class Utilisateur {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int utilisateur_id;
 
-	private String utilisateur_username;
-	private String utilisateur_password;
+	@Column(name = "utilisateur_username")
+	private String username;
+	@Column(name = "utilisateur_password")
+	private String password;
 
 	@OneToMany
 	@JoinColumn(name = "utilisateur_id")
@@ -22,9 +24,9 @@ public class Utilisateur {
 	public Utilisateur() {
 	}
 
-	public Utilisateur(String utilisateur_username, String utilisateur_password, ArrayList<com.java.todo.model.Tasks> tasks) {
-		this.utilisateur_username = utilisateur_username;
-		this.utilisateur_password = utilisateur_password;
+	public Utilisateur(String username, String password, ArrayList<com.java.todo.model.Tasks> tasks) {
+		this.username = username;
+		this.password = password;
 		listTasks = tasks;
 	}
 
@@ -37,19 +39,19 @@ public class Utilisateur {
 	}
 
 	public String getUtilisateur_username() {
-		return utilisateur_username;
+		return username;
 	}
 
-	public void setUtilisateur_username(String utilisateur_username) {
-		this.utilisateur_username = utilisateur_username;
+	public void setUtilisateur_username(String username) {
+		this.username = username;
 	}
 
 	public String getUtilisateur_password() {
-		return utilisateur_password;
+		return password;
 	}
 
-	public void setUtilisateur_password(String utilisateur_password) {
-		this.utilisateur_password = utilisateur_password;
+	public void setUtilisateur_password(String password) {
+		this.password = password;
 	}
 
 	public List<com.java.todo.model.Tasks> getTasks() {
@@ -66,22 +68,22 @@ public class Utilisateur {
 		if (!(o instanceof Utilisateur)) return false;
 		Utilisateur that = (Utilisateur) o;
 		return utilisateur_id == that.utilisateur_id &&
-				Objects.equals(utilisateur_username, that.utilisateur_username) &&
-				Objects.equals(utilisateur_password, that.utilisateur_password) &&
+				Objects.equals(username, that.username) &&
+				Objects.equals(password, that.password) &&
 				Objects.equals(listTasks, that.listTasks);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(utilisateur_id, utilisateur_username, utilisateur_password, listTasks);
+		return Objects.hash(utilisateur_id, username, password, listTasks);
 	}
 
 	@Override
 	public String toString() {
 		return "Utilisateur{" +
 				"utilisateur_id=" + utilisateur_id +
-				", utilisateur_username='" + utilisateur_username + '\'' +
-				", utilisateur_password='" + utilisateur_password + '\'' +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
 				", Tasks=" + listTasks +
 				'}';
 	}
