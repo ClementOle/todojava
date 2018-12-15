@@ -1,6 +1,7 @@
 package com.java.todo.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,54 +10,54 @@ import java.util.Objects;
 public class Utilisateur {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int id_utilisateur;
+	private int utilisateur_id;
 
-	private String username;
-	private String password;
+	private String utilisateur_username;
+	private String utilisateur_password;
 
-	@OneToMany(fetch = FetchType.EAGER)
-	@JoinColumn(name = "id_utilisateur")
-	private List<Task> Task;
+	@OneToMany
+	@JoinColumn(name = "utilisateur_id")
+	private List<Tasks> listTasks;
 
 	public Utilisateur() {
 	}
 
-	public Utilisateur(String username, String password, List<com.java.todo.model.Task> task) {
-		this.username = username;
-		this.password = password;
-		Task = task;
+	public Utilisateur(String utilisateur_username, String utilisateur_password, ArrayList<com.java.todo.model.Tasks> tasks) {
+		this.utilisateur_username = utilisateur_username;
+		this.utilisateur_password = utilisateur_password;
+		listTasks = tasks;
 	}
 
-	public int getId_utilisateur() {
-		return id_utilisateur;
+	public int getUtilisateur_id() {
+		return utilisateur_id;
 	}
 
-	public void setId_utilisateur(int id_utilisateur) {
-		this.id_utilisateur = id_utilisateur;
+	public void setUtilisateur_id(int utilisateur_id) {
+		this.utilisateur_id = utilisateur_id;
 	}
 
-	public String getUsername() {
-		return username;
+	public String getUtilisateur_username() {
+		return utilisateur_username;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUtilisateur_username(String utilisateur_username) {
+		this.utilisateur_username = utilisateur_username;
 	}
 
-	public String getPassword() {
-		return password;
+	public String getUtilisateur_password() {
+		return utilisateur_password;
 	}
 
-	public void setPassword(String password) {
-		this.password = password;
+	public void setUtilisateur_password(String utilisateur_password) {
+		this.utilisateur_password = utilisateur_password;
 	}
 
-	public List<com.java.todo.model.Task> getTask() {
-		return Task;
+	public List<com.java.todo.model.Tasks> getTasks() {
+		return listTasks;
 	}
 
-	public void setTask(List<com.java.todo.model.Task> task) {
-		Task = task;
+	public void setTasks(List<com.java.todo.model.Tasks> tasks) {
+		listTasks = tasks;
 	}
 
 	@Override
@@ -64,24 +65,32 @@ public class Utilisateur {
 		if (this == o) return true;
 		if (!(o instanceof Utilisateur)) return false;
 		Utilisateur that = (Utilisateur) o;
-		return id_utilisateur == that.id_utilisateur &&
-				Objects.equals(username, that.username) &&
-				Objects.equals(password, that.password) &&
-				Objects.equals(Task, that.Task);
+		return utilisateur_id == that.utilisateur_id &&
+				Objects.equals(utilisateur_username, that.utilisateur_username) &&
+				Objects.equals(utilisateur_password, that.utilisateur_password) &&
+				Objects.equals(listTasks, that.listTasks);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id_utilisateur, username, password, Task);
+		return Objects.hash(utilisateur_id, utilisateur_username, utilisateur_password, listTasks);
 	}
 
 	@Override
 	public String toString() {
 		return "Utilisateur{" +
-				"id_utilisateur=" + id_utilisateur +
-				", username='" + username + '\'' +
-				", password='" + password + '\'' +
-				", Task=" + Task +
+				"utilisateur_id=" + utilisateur_id +
+				", utilisateur_username='" + utilisateur_username + '\'' +
+				", utilisateur_password='" + utilisateur_password + '\'' +
+				", Tasks=" + listTasks +
 				'}';
+	}
+
+	public List<Tasks> getListTasks() {
+		return listTasks;
+	}
+
+	public void setListTasks(List<Tasks> listTasks) {
+		this.listTasks = listTasks;
 	}
 }
