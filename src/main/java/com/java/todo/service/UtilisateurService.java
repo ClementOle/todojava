@@ -20,12 +20,8 @@ public class UtilisateurService {
 	}
 
 	public boolean addUser(Utilisateur user) {
-		List<Utilisateur> listUtilisateur = (List<Utilisateur>) utilisateurRepository.findAll();
-		for (Utilisateur utilisateur :
-				listUtilisateur) {
-			if (utilisateur.getUtilisateur_username().equals(user.getUtilisateur_username())) {
-				return false;
-			}
+		if (utilisateurRepository.findAllByUsername(user.getUtilisateur_username()).size() != 0) {
+			return false;
 		}
 		utilisateurRepository.save(user);
 		return true;
