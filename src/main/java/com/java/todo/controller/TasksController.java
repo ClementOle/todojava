@@ -45,5 +45,16 @@ public class TasksController {
 
 	}
 
+	@RequestMapping("/deleteTask")
+	public boolean deleteTask(@RequestParam(value = "id", defaultValue = "-1") int idTask) {
+		try {
+			tasksRepository.delete(idTask);
+			return true;
+		} catch (Exception n) {
+			return false;
+		}
+	}
+
+
 	//TODO: Suppression d'une tâche
 }
