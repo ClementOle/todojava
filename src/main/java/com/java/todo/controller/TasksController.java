@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @RestController
 public class TasksController {
 	@Autowired
@@ -27,6 +30,20 @@ public class TasksController {
 		a.newTasks(tache, user);
 		return true;
 	}
+
+	@RequestMapping("/task")
+	public List<Tasks> task(@RequestParam(value = "id", defaultValue = "-1") int idUser) {
+		try {
+			if (idUser != -1) {
+				Utilisateur user = utilisateurRepository.findOne(idUser);
+				return user.getListTasks();
+			}
+		} catch (NullPointerException n) {
+			return new ArrayList<>();
+		}
+		return null;
+
+	}
+
 	//TODO: Suppression d'une tâche
-	//TODO: Recupération des tâches
 }
