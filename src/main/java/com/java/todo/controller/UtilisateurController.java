@@ -17,27 +17,31 @@ public class UtilisateurController extends NullPointerException {
 	UtilisateurRepository utilisateurRepository;
 
 	@RequestMapping("/addUtilisateur")
-	public String addUtilisateur(@RequestParam(value = "username", defaultValue = "null") String username, @RequestParam(value = "password", defaultValue = "null") String password, @RequestParam(value = "passwordVerif", defaultValue = "null") String passwordVerif) {
+	public int addUtilisateur(@RequestParam(value = "username", defaultValue = "null") String username, @RequestParam(value = "password", defaultValue = "null") String password, @RequestParam(value = "passwordVerif", defaultValue = "null") String passwordVerif) {
 
 		try {
 			ArrayList<Tasks> listTaches = new ArrayList<>();
 			if (!password.equals(passwordVerif)) {
-				return "Les mots de passe ne sont pas identiques";
+				//Mot de passe différent -> code : 2
+				return 2;
 			}
 
 			Utilisateur newUser = new Utilisateur(username, password, listTaches);
 			UtilisateurService us = new UtilisateurService(utilisateurRepository);
 
 			if (!us.addUser(newUser)) {
-				return "Username déja utilisé";
+				//Username déja existant -> code : 1
+				return 1;
 			}
-			return "Votre compte à bien été créé";
+			//Création effectué -> code : 0
+			return 0;
 
 		} catch (NullPointerException e) {
 			printStackTrace();
 
 		}
-		return "Erreur serveur!";
+		//Erreur serveur -> code 4
+		return 3;
 	}
 
 	@RequestMapping("/deleteUtilisateur")
