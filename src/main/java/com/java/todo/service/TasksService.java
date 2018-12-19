@@ -2,59 +2,35 @@ package com.java.todo.service;
 
 import com.java.todo.model.Tasks;
 import com.java.todo.model.Utilisateur;
+import com.java.todo.repository.TasksRepository;
 import com.java.todo.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-
+@Service
 public class TasksService {
 
 	@Autowired
+	private
 	UtilisateurRepository utilisateurRepository;
+	@Autowired
+	private
+	TasksRepository tasksRepository;
 
-	public TasksService() {
+
+	public Tasks newTasks(int id, Tasks tasks) {
+		Utilisateur utilisateur = utilisateurRepository.findOne(id);
+		utilisateur.getListTasks().add(tasks);
+		utilisateurRepository.save(utilisateur);
+
+		return tasksRepository.save(tasks);
+
+
 	}
 
-	public TasksService(UtilisateurRepository utilisateurRepository) {
-		this.utilisateurRepository = utilisateurRepository;
+	public Page findAll(Pageable pageable) {
+		return tasksRepository.findAll(pageable);
 	}
-
-	public UtilisateurRepository getUtilisateurRepository() {
-		return utilisateurRepository;
-	}
-
-	public void setUtilisateurRepository(UtilisateurRepository utilisateurRepository) {
-		this.utilisateurRepository = utilisateurRepository;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof TasksService)) return false;
-		TasksService that = (TasksService) o;
-		return Objects.equals(utilisateurRepository, that.utilisateurRepository);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(utilisateurRepository);
-	}
-
-	@Override
-	public String toString() {
-		return "TasksService{" +
-				"utilisateurRepository=" + utilisateurRepository +
-				'}';
-	}
-
-	public void newTasks(Tasks tasks, Utilisateur user) {
-		List<Tasks> listTaches = user.getListTasks();
-		listTaches.add(tasks);
-
-		user.setListTasks(listTaches);
-		utilisateurRepository.save(user);
-	}
-
-
 }
