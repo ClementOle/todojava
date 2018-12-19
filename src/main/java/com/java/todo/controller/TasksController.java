@@ -1,60 +1,38 @@
 package com.java.todo.controller;
 
 import com.java.todo.model.Tasks;
-import com.java.todo.model.Utilisateur;
-import com.java.todo.repository.TasksRepository;
-import com.java.todo.repository.UtilisateurRepository;
 import com.java.todo.service.TasksService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TasksController {
 	@Autowired
-	UtilisateurRepository utilisateurRepository;
-	@Autowired
-	TasksRepository tasksRepository;
+	private
+	TasksService tasksService;
 
-
-	@RequestMapping("/addTask")
-	public boolean addTask(@RequestParam(value = "text", defaultValue = " ") String text, @RequestParam(value = "id", defaultValue = "null") int utilisateur_id) {
-		Utilisateur user = utilisateurRepository.findOne(utilisateur_id);
-		Tasks tache = new Tasks(text, utilisateur_id);
-		tasksRepository.save(tache);
-		TasksService a = new TasksService(utilisateurRepository);
-		a.newTasks(tache, user);
-		return true;
+	@RequestMapping(value = "/{id}/tasks/", method = RequestMethod.GET)
+	public Page listTasks(@PathVariable(value = "id") int id, @RequestParam(value = "page") int page) {
+		Pageable pageable = new PageRequest(page, 10, Sort.Direction.ASC);
+		return tasksService.findAll(pageable);
 	}
 
-	@RequestMapping("/task")
-	public List<Tasks> task(@RequestParam(value = "id", defaultValue = "-1") int idUser) {
-		try {
-			if (idUser != -1) {
-				Utilisateur user = utilisateurRepository.findOne(idUser);
-				return user.getListTasks();
-			}
-		} catch (NullPointerException n) {
-			return new ArrayList<>();
-		}
-		return null;
-
+	@RequestMapping(value = "/{id}/tasks/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public Tasks addTask(@PathVariable(value = "id") int id, @RequestBody Tasks tasks) {
+		return tasksService.newTasks(id, tasks);
 	}
 
 	@RequestMapping("/deleteTask")
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public boolean deleteTask(@RequestParam(value = "id", defaultValue = "-1") int idTask) {
-		try {
-			tasksRepository.delete(idTask);
-			return true;
-		} catch (Exception n) {
-			return false;
-		}
+		//TODO: Suppression d'une tâche
+		return false;
 	}
 
 
-	//TODO: Suppression d'une tâche
 }
