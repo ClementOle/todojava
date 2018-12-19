@@ -23,14 +23,18 @@ public class TasksService {
 	public Tasks newTasks(int id, Tasks tasks) {
 		Utilisateur utilisateur = utilisateurRepository.findOne(id);
 		utilisateur.getListTasks().add(tasks);
+		Tasks task = tasksRepository.save(tasks);
 		utilisateurRepository.save(utilisateur);
-
-		return tasksRepository.save(tasks);
-
-
+		return task;
 	}
 
 	public Page findAll(Pageable pageable) {
 		return tasksRepository.findAll(pageable);
+	}
+
+	public void suppTask(int id, Tasks tasks) {
+		Utilisateur utilisateur = utilisateurRepository.findOne(id);
+		utilisateur.getListTasks().remove(tasks);
+		utilisateurRepository.save(utilisateur);
 	}
 }

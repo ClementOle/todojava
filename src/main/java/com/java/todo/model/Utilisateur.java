@@ -1,7 +1,6 @@
 package com.java.todo.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,10 +23,17 @@ public class Utilisateur {
 	public Utilisateur() {
 	}
 
-	public Utilisateur(String username, String password, ArrayList<com.java.todo.model.Tasks> tasks) {
+	public Utilisateur(String username, String password, List<Tasks> listTasks) {
 		this.username = username;
 		this.password = password;
-		listTasks = tasks;
+		this.listTasks = listTasks;
+	}
+
+	public Utilisateur(int id, String username, String password, List<Tasks> listTasks) {
+		this.utilisateur_id = id;
+		this.username = username;
+		this.password = password;
+		this.listTasks = listTasks;
 	}
 
 	public int getUtilisateur_id() {

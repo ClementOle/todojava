@@ -27,11 +27,10 @@ public class TasksController {
 		return tasksService.newTasks(id, tasks);
 	}
 
-	@RequestMapping("/deleteTask")
+	@RequestMapping(value = "/{id}/tasks/", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public boolean deleteTask(@RequestParam(value = "id", defaultValue = "-1") int idTask) {
-		//TODO: Suppression d'une tâche
-		return false;
+	public void deleteTask(@PathVariable(value = "id") int id, @RequestBody Tasks tasks) {
+		tasksService.suppTask(id, tasks);
 	}
 
 
