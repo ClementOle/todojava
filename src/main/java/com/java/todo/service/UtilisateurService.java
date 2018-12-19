@@ -3,37 +3,21 @@ package com.java.todo.service;
 import com.java.todo.model.Utilisateur;
 import com.java.todo.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-
+@Service
 public class UtilisateurService {
 
 	@Autowired
+	private
 	UtilisateurRepository utilisateurRepository;
 
-	public UtilisateurService() {
+	public Utilisateur addUser(Utilisateur utilisateur) {
+		return utilisateurRepository.save(utilisateur);
 	}
 
-	public UtilisateurService(UtilisateurRepository utilisateurRepository) {
-		this.utilisateurRepository = utilisateurRepository;
-	}
-
-	public boolean addUser(Utilisateur user) {
-		if (utilisateurRepository.findAllByUsername(user.getUtilisateur_username()).size() != 0) {
-			return false;
-		}
-		utilisateurRepository.save(user);
-		return true;
-	}
-
-	public void deleteUser(Utilisateur user) {
-		List<Utilisateur> a = utilisateurRepository.findAllByUsername(user.getUtilisateur_username());
-		if (a.size() == 1) {
-			utilisateurRepository.delete(a);
-		} else {
-			System.err.println("Impossible de supprimer cette utilisateur");
-		}
+	public void deleteUser(Utilisateur utilisateur) {
+		utilisateurRepository.delete(utilisateur);
 
 	}
 
