@@ -1,53 +1,52 @@
 package com.java.todo.model;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
 public class Tasks {
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	private int tasks_id;
-	private String tasks_text;
+	@Column(name = "tasks_id")
+	private int idTasks;
 
+	@Column(name = "tasks_text")
+	private String text;
 
-	private int utilisateur_id;
+	@Column(name = "utilisateur_id")
+	private int idUtilisateur;
 
 	public Tasks() {
 	}
 
-	public Tasks(String tasks_text, int utilisateur_id) {
-		this.tasks_text = tasks_text;
-		this.utilisateur_id = utilisateur_id;
+	public Tasks(String text, int idUtilisateur) {
+		this.text = text;
+		this.idUtilisateur = idUtilisateur;
 	}
 
-	public int getTasks_id() {
-		return tasks_id;
+	public int getIdTasks() {
+		return idTasks;
 	}
 
-	public void setTasks_id(int tasks_id) {
-		this.tasks_id = tasks_id;
+	public void setIdTasks(int idTasks) {
+		this.idTasks = idTasks;
 	}
 
-	public String getTasks_text() {
-		return tasks_text;
+	public String getText() {
+		return text;
 	}
 
-	public void setTasks_text(String tasks_text) {
-		this.tasks_text = tasks_text;
+	public void setText(String text) {
+		this.text = text;
 	}
 
-	public int getUtilisateur_id() {
-		return utilisateur_id;
+	public int getIdUtilisateur() {
+		return idUtilisateur;
 	}
 
-	public void setUtilisateur_id(int utilisateur_id) {
-		this.utilisateur_id = utilisateur_id;
+	public void setIdUtilisateur(int idUtilisateur) {
+		this.idUtilisateur = idUtilisateur;
 	}
 
 	@Override
@@ -55,22 +54,22 @@ public class Tasks {
 		if (this == o) return true;
 		if (!(o instanceof Tasks)) return false;
 		Tasks tasks = (Tasks) o;
-		return tasks_id == tasks.tasks_id &&
-				utilisateur_id == tasks.utilisateur_id &&
-				Objects.equals(tasks_text, tasks.tasks_text);
+		return idTasks == tasks.idTasks &&
+				idUtilisateur == tasks.idUtilisateur &&
+				Objects.equals(text, tasks.text);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(tasks_id, tasks_text, utilisateur_id);
+		return Objects.hash(idTasks, text, idUtilisateur);
 	}
 
 	@Override
 	public String toString() {
-		return "Task{" +
-				"tasks_id=" + tasks_id +
-				", tasks_text='" + tasks_text + '\'' +
-				", utilisateur_id=" + utilisateur_id +
+		return "Tasks{" +
+				"idTasks=" + idTasks +
+				", text='" + text + '\'' +
+				", idUtilisateur=" + idUtilisateur +
 				'}';
 	}
 }
