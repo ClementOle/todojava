@@ -20,9 +20,6 @@ public class UtilisateurService {
 	@Autowired
 	private TasksRepository tasksRepository;
 
-	@Autowired
-	private
-	TasksService tasksService;
 
 	public Utilisateur findUtilisateur(int id) {
 		return utilisateurRepository.findOne(id);
@@ -41,18 +38,20 @@ public class UtilisateurService {
 		utilisateurRepository.delete(utilisateur);
 	}
 
+	//////////////////////////////////////////////Task//////////////////////////////////////////////////
+
 	public Tasks newTasks(int id, Tasks tasks) {
 		Utilisateur utilisateur = utilisateurRepository.findOne(id);
 		Tasks task = tasksRepository.save(tasks);
-		utilisateur.getListTasks().add(tasks);
 
+		utilisateur.getListTasks().add(tasks);
 		utilisateurRepository.save(utilisateur);
 		return task;
 	}
 
-	public Page listTasksUtilisateur(int utilisateurId, int page) {
-		Pageable pageable = new PageRequest(page, 10, Sort.Direction.ASC, "utilisateurId");
-		return tasksRepository.findByUtilisateurId(utilisateurId, pageable);
+	public Page listTasksUtilisateur(int idUtilisateur, int page) {
+		Pageable pageable = new PageRequest(page, 10, Sort.Direction.ASC, "idUtilisateur");
+		return tasksRepository.findByIdUtilisateur(idUtilisateur, pageable);
 	}
 
 	public void suppTask(int idUtilisateur, int idTask) {
@@ -63,8 +62,6 @@ public class UtilisateurService {
 
 		utilisateur.getListTasks().remove(task);
 		utilisateurRepository.save(utilisateur);
-
-
 	}
 
 

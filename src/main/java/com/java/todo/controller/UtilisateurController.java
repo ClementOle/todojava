@@ -14,6 +14,11 @@ public class UtilisateurController extends NullPointerException {
 	private
 	UtilisateurService utilisateurService;
 
+	@RequestMapping(value = "/{id}")
+	public Utilisateur findUtilisateur(@PathVariable(value = "id") int id) {
+		return utilisateurService.findUtilisateur(id);
+	}
+
 	@RequestMapping(value = "", method = RequestMethod.GET)
 	public Page listUtilisateur(@RequestParam(value = "page") int page) {
 		return utilisateurService.pagingEmploye(page);
@@ -28,11 +33,6 @@ public class UtilisateurController extends NullPointerException {
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteUtilisateur(@RequestBody Utilisateur utilisateur) {
 		utilisateurService.deleteUser(utilisateur);
-	}
-
-	@RequestMapping(value = "/{id}")
-	public Utilisateur findUtilisateur(@PathVariable(value = "id") int id) {
-		return utilisateurService.findUtilisateur(id);
 	}
 
 	@RequestMapping(value = "/{id}/tasks/", method = RequestMethod.GET)

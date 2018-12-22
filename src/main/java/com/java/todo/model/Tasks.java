@@ -15,14 +15,14 @@ public class Tasks {
 	private String text;
 
 	@Column(name = "utilisateur_id")
-	private int utilisateurId;
+	private int idUtilisateur;
 
 	public Tasks() {
 	}
 
-	public Tasks(String text, int utilisateurId) {
+	public Tasks(String text, int idUtilisateur) {
 		this.text = text;
-		this.utilisateurId = utilisateurId;
+		this.idUtilisateur = idUtilisateur;
 	}
 
 	public int getIdTasks() {
@@ -41,12 +41,12 @@ public class Tasks {
 		this.text = text;
 	}
 
-	public int getUtilisateurId() {
-		return utilisateurId;
+	public int getIdUtilisateur() {
+		return idUtilisateur;
 	}
 
-	public void setUtilisateurId(int utilisateurId) {
-		this.utilisateurId = utilisateurId;
+	public void setIdUtilisateur(int idUtilisateur) {
+		this.idUtilisateur = idUtilisateur;
 	}
 
 	@Override
@@ -55,13 +55,13 @@ public class Tasks {
 		if (!(o instanceof Tasks)) return false;
 		Tasks tasks = (Tasks) o;
 		return idTasks == tasks.idTasks &&
-				utilisateurId == tasks.utilisateurId &&
+				idUtilisateur == tasks.idUtilisateur &&
 				Objects.equals(text, tasks.text);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idTasks, text, utilisateurId);
+		return Objects.hash(idTasks, text, idUtilisateur);
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class Tasks {
 		return "Tasks{" +
 				"idTasks=" + idTasks +
 				", text='" + text + '\'' +
-				", utilisateurId=" + utilisateurId +
+				", idUtilisateur=" + idUtilisateur +
 				'}';
 	}
 }

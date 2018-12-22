@@ -8,5 +8,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 
 public interface TasksRepository extends PagingAndSortingRepository<Tasks, Integer> {
-	Page<Tasks> findByUtilisateurId(int utilisateurId, Pageable pageable);
+	Page<Tasks> findByIdUtilisateur(int idUtilisateur, Pageable pageable);
 }
