@@ -1,5 +1,6 @@
 package com.java.todo.controller;
 
+import com.java.todo.model.Tasks;
 import com.java.todo.model.Utilisateur;
 import com.java.todo.service.UtilisateurService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,5 +33,21 @@ public class UtilisateurController extends NullPointerException {
 	@RequestMapping(value = "/{id}")
 	public Utilisateur findUtilisateur(@PathVariable(value = "id") int id) {
 		return utilisateurService.findUtilisateur(id);
+	}
+
+	@RequestMapping(value = "/{id}/tasks/", method = RequestMethod.GET)
+	public Page listTasks(@PathVariable(value = "id") int idUtilisateur, @RequestParam(value = "page", defaultValue = "0") int page) {
+		return utilisateurService.listTasksUtilisateur(idUtilisateur, page);
+	}
+
+	@RequestMapping(value = "/{id}/tasks/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	public Tasks addTask(@PathVariable(value = "id") int id, @RequestBody Tasks tasks) {
+		return utilisateurService.newTasks(id, tasks);
+	}
+
+	@RequestMapping(value = "/{id}/tasks/{id_task}", method = RequestMethod.DELETE)
+	@ResponseStatus(value = HttpStatus.NO_CONTENT)
+	public void deleteTask(@PathVariable(value = "id") int idUtilisateur, @PathVariable(value = "id_task") int idTask) {
+		utilisateurService.suppTask(idUtilisateur, idTask);
 	}
 }
