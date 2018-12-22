@@ -59,11 +59,10 @@ public class UtilisateurService {
 		Utilisateur utilisateur = utilisateurRepository.findOne(idUtilisateur);
 		Tasks task = tasksRepository.findOne(idTask);
 
-
-		utilisateur.getListTasks().remove(idTask);
-		utilisateurRepository.save(utilisateur);
-
 		tasksRepository.delete(task);
+
+		utilisateur.getListTasks().remove(task);
+		utilisateurRepository.save(utilisateur);
 
 
 	}
