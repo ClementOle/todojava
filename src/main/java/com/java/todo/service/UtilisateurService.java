@@ -1,40 +1,67 @@
 package com.java.todo.service;
 
+import com.java.todo.model.Tasks;
 import com.java.todo.model.Utilisateur;
+import com.java.todo.repository.TasksRepository;
 import com.java.todo.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-
+@Service
 public class UtilisateurService {
 
 	@Autowired
+	private
 	UtilisateurRepository utilisateurRepository;
+	@Autowired
+	private TasksRepository tasksRepository;
 
-	public UtilisateurService() {
+
+	public Utilisateur findUtilisateur(int id) {
+		return utilisateurRepository.findOne(id);
 	}
 
-	public UtilisateurService(UtilisateurRepository utilisateurRepository) {
-		this.utilisateurRepository = utilisateurRepository;
+	public Page pagingEmploye(int page) {
+		Pageable pageable = new PageRequest(page, 10, Sort.Direction.ASC, "username");
+		return utilisateurRepository.findAll(pageable);
 	}
 
-	public boolean addUser(Utilisateur user) {
-		if (utilisateurRepository.findAllByUsername(user.getUtilisateur_username()).size() != 0) {
-			return false;
-		}
-		utilisateurRepository.save(user);
-		return true;
+	public Utilisateur addUser(Utilisateur utilisateur) {
+		return utilisateurRepository.save(utilisateur);
 	}
 
-	public void deleteUser(Utilisateur user) {
-		List<Utilisateur> a = utilisateurRepository.findAllByUsername(user.getUtilisateur_username());
-		if (a.size() == 1) {
-			utilisateurRepository.delete(a);
-		} else {
-			System.err.println("Impossible de supprimer cette utilisateur");
-		}
+	public void deleteUser(Utilisateur utilisateur) {
+		utilisateurRepository.delete(utilisateur);
+	}
 
+	//////////////////////////////////////////////Task//////////////////////////////////////////////////
+
+	public Tasks newTasks(int id, Tasks tasks) {
+		Utilisateur utilisateur = utilisateurRepository.findOne(id);
+		Tasks task = tasksRepository.save(tasks);
+
+		utilisateur.getListTasks().add(tasks);
+		utilisateurRepository.save(utilisateur);
+		return task;
+	}
+
+	public Page listTasksUtilisateur(int idUtilisateur, int page) {
+		Pageable pageable = new PageRequest(page, 10, Sort.Direction.ASC, "idUtilisateur");
+		return tasksRepository.findByIdUtilisateur(idUtilisateur, pageable);
+	}
+
+	public void suppTask(int idUtilisateur, int idTask) {
+		Utilisateur utilisateur = utilisateurRepository.findOne(idUtilisateur);
+		Tasks task = tasksRepository.findOne(idTask);
+
+		tasksRepository.delete(task);
+
+		utilisateur.getListTasks().remove(task);
+		utilisateurRepository.save(utilisateur);
 	}
 
 
