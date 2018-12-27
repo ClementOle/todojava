@@ -48,6 +48,8 @@ $(document).ready(function () {
 		ev.preventDefault();
 		ev.stopPropagation();
 		if (pseudo.value != "" && mdp.value != "") {
+
+
 			let user = {
 				username: pseudo.value,
 				password: mdp.value
@@ -98,25 +100,25 @@ $(document).ready(function () {
 	addTask.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 		ev.stopPropagation();
+		if (textTask.value != "" && idUtilisateur.value != "") {
+			let url = urlBase + "/" + idUtilisateurTask.value + "/tasks/";
 
-		let url = urlBase + "/" + idUtilisateurTask.value + "/tasks/";
+			let task = {
+				text: textTask.value,
+				idUtilisateur: idUtilisateur.value
+			};
 
-		let task = {
-			text: textTask.value,
-			idUtilisateur: idUtilisateur.value
-		};
-
-		jQuery.ajax({
-			url: url,
-			type: "POST",
-			data: JSON.stringify(task),
-			dataType: "json",
-			contentType: "application/json; charset=utf-8",
-			success: function (data) {
-				console.log(data);
-			}
-		});
-		//TODO vérification du remplissage des champs
+			jQuery.ajax({
+				url: url,
+				type: "POST",
+				data: JSON.stringify(task),
+				dataType: "json",
+				contentType: "application/json; charset=utf-8",
+				success: function (data) {
+					console.log(data);
+				}
+			});
+		}
 	});
 
 	deleteTask.addEventListener('submit', function (ev) {
