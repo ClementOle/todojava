@@ -19,12 +19,14 @@ const deleteTask = document.getElementById("deleteTask");
 const idUtilisateurDeleteTask = document.getElementById("idUtilisateurDeleteTask");
 const idTask = document.getElementById("idTask");
 
+const urlBase = "http://localhost:8083";
+
 $(document).ready(function () {
     afficheEmploye.addEventListener('click', function (event) {
         event.preventDefault();
         event.stopPropagation();
         let idUtilisateur = 22;
-        let url = "http://localhost:8083/" + idUtilisateur;
+        let url = urlBase + "/" + idUtilisateur;
         $.get(url, function (data) {
             console.log(data);
         });
@@ -36,7 +38,7 @@ $(document).ready(function () {
 
 
         let numeroPage = 0;
-        let url = "http://localhost:8083?page=" + numeroPage;
+        let url = urlBase + "?page=" + numeroPage;
         $.get(url, function (data) {
             console.log(data);
         });
@@ -46,15 +48,13 @@ $(document).ready(function () {
         ev.preventDefault();
         ev.stopPropagation();
 
-        let url = "http://localhost:8083";
-
         let user = {
             username: pseudo.value,
             password: mdp.value
         };
 
         jQuery.ajax({
-            url: url,
+            url: urlBase,
             type: "POST",
             data: JSON.stringify(user),
             dataType: "json",
@@ -69,13 +69,11 @@ $(document).ready(function () {
         ev.stopPropagation();
         ev.preventDefault();
 
-        let url = "http://localhost:8083/" + idUtilisateur.value;
+        let url = urlBase + "/" + idUtilisateur.value;
 
         $.get(url, function (data) {
-            let url = "http://localhost:8083";
-
             jQuery.ajax({
-                url: url,
+                url: urlBase,
                 type: "DELETE",
                 data: JSON.stringify(data),
                 dataType: "json",
@@ -88,8 +86,7 @@ $(document).ready(function () {
         ev.stopPropagation();
         ev.preventDefault();
 
-        let url = "http://localhost:8083/" + idUser.value + "/tasks/?page=0";
-
+        let url = urlBase + "/" + idUser.value + "/tasks/?page=0";
         $.get(url, function (data) {
             console.log(data);
         });
@@ -99,7 +96,7 @@ $(document).ready(function () {
         ev.preventDefault();
         ev.stopPropagation();
 
-        let url = "http://localhost:8083/" + idUtilisateurTask.value + "/tasks/";
+        let url = urlBase + "/" + idUtilisateurTask.value + "/tasks/";
 
         let task = {
             text: textTask.value,
@@ -122,7 +119,7 @@ $(document).ready(function () {
         ev.stopPropagation();
         ev.preventDefault();
 
-        let url = "http://localhost:8083/" + idUtilisateurDeleteTask.value + "/tasks/" + idTask.value;
+        let url = urlBase + "/" + idUtilisateurDeleteTask.value + "/tasks/" + idTask.value;
 
         jQuery.ajax({
             url: url,
