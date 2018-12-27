@@ -44,14 +44,6 @@ public class UtilisateurService {
 		tasks.setIdUtilisateur(id);
 		Tasks task = tasksRepository.save(tasks);
 
-		//Utilisateur user = utilisateurRepository.findByIdUtilisateur(id);
-
-		//List<Tasks> listDesTaches;
-		//listDesTaches = tasksRepository.findAllByIdUtilisateur(id);
-		//listDesTaches.add(tasks);
-
-		//user.setListTasks(listDesTaches);
-		//utilisateurRepository.save(user);
 		return task;
 	}
 
