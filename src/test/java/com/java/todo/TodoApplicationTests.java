@@ -22,7 +22,7 @@ public class TodoApplicationTests {
 		//When
 		long nbUtilisateur = utilisateurRepository.count();
 		//Then
-		Assert.assertTrue(nbUtilisateur == 0);
+		Assert.assertTrue(nbUtilisateur > 0);
 	}
 
 }
