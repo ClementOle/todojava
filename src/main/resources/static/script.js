@@ -22,110 +22,114 @@ const idTask = document.getElementById("idTask");
 const urlBase = "http://localhost:8083";
 
 $(document).ready(function () {
-    afficheEmploye.addEventListener('click', function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-        let idUtilisateur = 22;
-        let url = urlBase + "/" + idUtilisateur;
-        $.get(url, function (data) {
-            console.log(data);
-        });
-    });
+	afficheEmploye.addEventListener('click', function (event) {
+		event.preventDefault();
+		event.stopPropagation();
+		let idUtilisateur = 22;
+		let url = urlBase + "/" + idUtilisateur;
+		$.get(url, function (data) {
+			console.log(data);
+		});
+	});
 
-    afficheListEmploye.addEventListener('click', function (ev) {
-        ev.stopPropagation();
-        ev.preventDefault();
+	afficheListEmploye.addEventListener('click', function (ev) {
+		ev.stopPropagation();
+		ev.preventDefault();
 
 
-        let numeroPage = 0;
-        let url = urlBase + "?page=" + numeroPage;
-        $.get(url, function (data) {
-            console.log(data);
-        });
-    });
+		let numeroPage = 0;
+		let url = urlBase + "?page=" + numeroPage;
+		$.get(url, function (data) {
+			console.log(data);
+		});
+	});
 
-    addUser.addEventListener('submit', function (ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
+	addUser.addEventListener('submit', function (ev) {
+		ev.preventDefault();
+		ev.stopPropagation();
+		if (pseudo.value != "" && mdp.value != "") {
+			let user = {
+				username: pseudo.value,
+				password: mdp.value
+			};
 
-        let user = {
-            username: pseudo.value,
-            password: mdp.value
-        };
+			jQuery.ajax({
+				url: urlBase,
+				type: "POST",
+				data: JSON.stringify(user),
+				dataType: "json",
+				contentType: "application/json; charset=utf-8",
+				success: function (data) {
+					console.log(data);
+				}
+			});
+		}
+		//TODO: Cryptage mot de passe
+		//TODO: Vérification unicité du pseudo
+	});
 
-        jQuery.ajax({
-            url: urlBase,
-            type: "POST",
-            data: JSON.stringify(user),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                console.log(data);
-            }
-        });
-    });
+	deleteUser.addEventListener('submit', function (ev) {
+		ev.stopPropagation();
+		ev.preventDefault();
 
-    deleteUser.addEventListener('submit', function (ev) {
-        ev.stopPropagation();
-        ev.preventDefault();
+		let url = urlBase + "/" + idUtilisateur.value;
 
-        let url = urlBase + "/" + idUtilisateur.value;
+		$.get(url, function (data) {
+			jQuery.ajax({
+				url: urlBase,
+				type: "DELETE",
+				data: JSON.stringify(data),
+				dataType: "json",
+				contentType: "application/json; charset=utf-8"
+			});
+		});
+	});
 
-        $.get(url, function (data) {
-            jQuery.ajax({
-                url: urlBase,
-                type: "DELETE",
-                data: JSON.stringify(data),
-                dataType: "json",
-                contentType: "application/json; charset=utf-8"
-            });
-        });
-    });
+	listTask.addEventListener('submit', function (ev) {
+		ev.stopPropagation();
+		ev.preventDefault();
 
-    listTask.addEventListener('submit', function (ev) {
-        ev.stopPropagation();
-        ev.preventDefault();
+		let url = urlBase + "/" + idUser.value + "/tasks/?page=0";
+		$.get(url, function (data) {
+			console.log(data);
+		});
+	});
 
-        let url = urlBase + "/" + idUser.value + "/tasks/?page=0";
-        $.get(url, function (data) {
-            console.log(data);
-        });
-    });
+	addTask.addEventListener('submit', function (ev) {
+		ev.preventDefault();
+		ev.stopPropagation();
 
-    addTask.addEventListener('submit', function (ev) {
-        ev.preventDefault();
-        ev.stopPropagation();
+		let url = urlBase + "/" + idUtilisateurTask.value + "/tasks/";
 
-        let url = urlBase + "/" + idUtilisateurTask.value + "/tasks/";
+		let task = {
+			text: textTask.value,
+			idUtilisateur: idUtilisateur.value
+		};
 
-        let task = {
-            text: textTask.value,
-            idUtilisateur: idUtilisateur.value
-        };
+		jQuery.ajax({
+			url: url,
+			type: "POST",
+			data: JSON.stringify(task),
+			dataType: "json",
+			contentType: "application/json; charset=utf-8",
+			success: function (data) {
+				console.log(data);
+			}
+		});
+		//TODO vérification du remplissage des champs
+	});
 
-        jQuery.ajax({
-            url: url,
-            type: "POST",
-            data: JSON.stringify(task),
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            success: function (data) {
-                console.log(data);
-            }
-        });
-    });
+	deleteTask.addEventListener('submit', function (ev) {
+		ev.stopPropagation();
+		ev.preventDefault();
 
-    deleteTask.addEventListener('submit', function (ev) {
-        ev.stopPropagation();
-        ev.preventDefault();
+		let url = urlBase + "/" + idUtilisateurDeleteTask.value + "/tasks/" + idTask.value;
 
-        let url = urlBase + "/" + idUtilisateurDeleteTask.value + "/tasks/" + idTask.value;
-
-        jQuery.ajax({
-            url: url,
-            type: "DELETE"
-        });
-    })
+		jQuery.ajax({
+			url: url,
+			type: "DELETE"
+		});
+	})
 
 
 });
