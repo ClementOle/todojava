@@ -41,11 +41,9 @@ public class UtilisateurService {
 	//////////////////////////////////////////////Task//////////////////////////////////////////////////
 
 	public Tasks newTasks(int id, Tasks tasks) {
-		Utilisateur utilisateur = utilisateurRepository.findOne(id);
+		tasks.setIdUtilisateur(id);
 		Tasks task = tasksRepository.save(tasks);
 
-		utilisateur.getListTasks().add(tasks);
-		utilisateurRepository.save(utilisateur);
 		return task;
 	}
 

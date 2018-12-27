@@ -1,6 +1,9 @@
 package com.java.todo.model;
 
+
 import javax.persistence.*;
+import javax.validation.constraints.Null;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,9 +20,9 @@ public class Utilisateur {
 	@Column(name = "utilisateur_password")
 	private String password;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "utilisateur_id")
-	private List<Tasks> listTasks;
+	private List<Tasks> listTasks = new ArrayList<>();
 
 	public Utilisateur() {
 	}
@@ -58,7 +61,7 @@ public class Utilisateur {
 		return listTasks;
 	}
 
-	public void setListTasks(List<Tasks> listTasks) {
+	public void setListTasks(@Null List<Tasks> listTasks) {
 		this.listTasks = listTasks;
 	}
 
