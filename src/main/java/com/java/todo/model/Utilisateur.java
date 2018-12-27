@@ -20,7 +20,7 @@ public class Utilisateur {
 	@Column(name = "utilisateur_password")
 	private String password;
 
-	@OneToMany
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "utilisateur_id")
 	private List<Tasks> listTasks = new ArrayList<>();
 

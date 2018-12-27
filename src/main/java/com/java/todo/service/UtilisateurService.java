@@ -11,8 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class UtilisateurService {
 
@@ -43,16 +41,16 @@ public class UtilisateurService {
 	//////////////////////////////////////////////Task//////////////////////////////////////////////////
 
 	public Tasks newTasks(int id, Tasks tasks) {
-
+		tasks.setIdUtilisateur(id);
 		Tasks task = tasksRepository.save(tasks);
 
-		Utilisateur user = utilisateurRepository.findByIdUtilisateur(id);
+		//Utilisateur user = utilisateurRepository.findByIdUtilisateur(id);
 
-		List<Tasks> listDesTaches;
-		listDesTaches = tasksRepository.findAllByIdUtilisateur(id);
-		listDesTaches.add(task);
+		//List<Tasks> listDesTaches;
+		//listDesTaches = tasksRepository.findAllByIdUtilisateur(id);
+		//listDesTaches.add(tasks);
 
-		user.setListTasks(listDesTaches);
+		//user.setListTasks(listDesTaches);
 		//utilisateurRepository.save(user);
 		return task;
 	}

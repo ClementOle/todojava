@@ -15,6 +15,10 @@ const addTask = document.getElementById("addTask");
 const idUtilisateurTask = document.getElementById("idUtilisateurTask");
 const textTask = document.getElementById("textTask");
 
+const deleteTask = document.getElementById("deleteTask");
+const idUtilisateurDeleteTask = document.getElementById("idUtilisateurDeleteTask");
+const idTask = document.getElementById("idTask");
+
 $(document).ready(function () {
     afficheEmploye.addEventListener('click', function (event) {
         event.preventDefault();
@@ -67,6 +71,17 @@ $(document).ready(function () {
 
         let url = "http://localhost:8083/" + idUtilisateur.value;
 
+        $.get(url, function (data) {
+            let url = "http://localhost:8083";
+
+            jQuery.ajax({
+                url: url,
+                type: "DELETE",
+                data: JSON.stringify(data),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8"
+            });
+        });
     });
 
     listTask.addEventListener('submit', function (ev) {
@@ -101,5 +116,19 @@ $(document).ready(function () {
                 console.log(data);
             }
         });
+    });
+
+    deleteTask.addEventListener('submit', function (ev) {
+        ev.stopPropagation();
+        ev.preventDefault();
+
+        let url = "http://localhost:8083/" + idUtilisateurDeleteTask.value + "/tasks/" + idTask.value;
+
+        jQuery.ajax({
+            url: url,
+            type: "DELETE"
+        });
     })
+
+
 });
