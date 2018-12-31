@@ -40,6 +40,11 @@ public class UtilisateurService {
 
 	//////////////////////////////////////////////Task//////////////////////////////////////////////////
 
+	public Page listTasksUtilisateur(int idUtilisateur, int page) {
+		Pageable pageable = new PageRequest(page, 10, Sort.Direction.ASC, "idUtilisateur");
+		return tasksRepository.findByIdUtilisateur(idUtilisateur, pageable);
+	}
+
 	public Tasks newTasks(int id, Tasks tasks) {
 		tasks.setIdUtilisateur(id);
 		Tasks task = tasksRepository.save(tasks);
@@ -47,9 +52,11 @@ public class UtilisateurService {
 		return task;
 	}
 
-	public Page listTasksUtilisateur(int idUtilisateur, int page) {
-		Pageable pageable = new PageRequest(page, 10, Sort.Direction.ASC, "idUtilisateur");
-		return tasksRepository.findByIdUtilisateur(idUtilisateur, pageable);
+	public Tasks updateTask(int id, Tasks taskUpdated) {
+		Tasks task = tasksRepository.findOne(id);
+		task.setText(taskUpdated.getText());
+		tasksRepository.save(task);
+		return task;
 	}
 
 	public void suppTask(int idUtilisateur, int idTask) {

@@ -45,6 +45,11 @@ public class UtilisateurController extends NullPointerException {
 		return utilisateurService.newTasks(id, tasks);
 	}
 
+	@RequestMapping(value = "/{id}/tasks/{id_task}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
+	public Tasks updateTask(@PathVariable(value = "id") int id, @PathVariable(value = "id_task") int idTask, @RequestBody Tasks task) {
+		return utilisateurService.updateTask(idTask, task);
+	}
+
 	@RequestMapping(value = "/{id}/tasks/{id_task}", method = RequestMethod.DELETE)
 	@ResponseStatus(value = HttpStatus.NO_CONTENT)
 	public void deleteTask(@PathVariable(value = "id") int idUtilisateur, @PathVariable(value = "id_task") int idTask) {
