@@ -25,7 +25,7 @@ public class UtilisateurController extends NullPointerException {
 		return utilisateurService.findUtilisateur(id);
 	}
 
-	@RequestMapping(value = "/connexion/", method = RequestMethod.GET)
+	@RequestMapping(value = "/connexion/", method = RequestMethod.POST)
 	public Utilisateur findUtilisateurByIdentifiants(@RequestBody Utilisateur utilisateur) {
 		return utilisateurService.findUtilisateurByIdentifiants(utilisateur);
 	}
