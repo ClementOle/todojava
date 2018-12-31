@@ -100,7 +100,7 @@ $(document).ready(function () {
 	addTask.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 		ev.stopPropagation();
-		if (textTask.value != "" && idUtilisateur.value != "") {
+		//if (textTask.value != "" && idUtilisateur.value != "") {
 			let url = urlBase + "/" + idUtilisateurTask.value + "/tasks/";
 
 			let task = {
@@ -118,7 +118,7 @@ $(document).ready(function () {
 					console.log(data);
 				}
 			});
-		}
+		//}
 	});
 
 	deleteTask.addEventListener('submit', function (ev) {

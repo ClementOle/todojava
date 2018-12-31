@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UtilisateurService {
 
@@ -39,6 +41,11 @@ public class UtilisateurService {
 	}
 
 	//////////////////////////////////////////////Task//////////////////////////////////////////////////
+
+	public int countTache(int idUtilisateur) {
+		List<Tasks> listTache = tasksRepository.findAllByIdUtilisateur(idUtilisateur);
+		return listTache.size();
+	}
 
 	public Page listTasksUtilisateur(int idUtilisateur, int page) {
 		Pageable pageable = new PageRequest(page, 10, Sort.Direction.ASC, "idUtilisateur");
