@@ -27,6 +27,10 @@ public class UtilisateurService {
 		return utilisateurRepository.findOne(id);
 	}
 
+	public Utilisateur findUtilisateurByIdentifiants(Utilisateur utilisateur) {
+		return utilisateurRepository.findByUsernameAndPassword(utilisateur.getUsername(), utilisateur.getPassword());
+	}
+
 	public Page pagingEmploye(int page) {
 		Pageable pageable = new PageRequest(page, 10, Sort.Direction.ASC, "username");
 		return utilisateurRepository.findAll(pageable);
