@@ -1,76 +1,42 @@
 package com.java.todo.controller;
 
-import com.java.todo.model.Tasks;
+import com.java.todo.exception.ResourceNotFoundException;
 import com.java.todo.model.Utilisateur;
-import com.java.todo.service.UtilisateurService;
+import com.java.todo.repository.UtilisateurRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/utilisateur")
 public class UtilisateurController extends NullPointerException {
 	@Autowired
 	private
-	UtilisateurService utilisateurService;
+	UtilisateurRepository utilisateurRepository;
 
-	@RequestMapping(value = "/")
-	public int countUtilisateur() {
-		//TODO: compte le nombre d'utilisateur
-		return 0;
+	@RequestMapping(value = "counts")
+	public long countUtilisateur() {
+		return utilisateurRepository.count();
 	}
 
-	@RequestMapping(value = "/{id}")
+	@GetMapping("{id}")
 	public Utilisateur findUtilisateur(@PathVariable(value = "id") int id) {
-		return utilisateurService.findUtilisateur(id);
+		return utilisateurRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Utilisateur", "id", id));
 	}
 
-	@RequestMapping(value = "/connexion/", method = RequestMethod.POST)
-	public Utilisateur findUtilisateurByIdentifiants(@RequestBody Utilisateur utilisateur) {
-		return utilisateurService.findUtilisateurByIdentifiants(utilisateur);
-	}
-
-	@RequestMapping(value = "", method = RequestMethod.GET)
+	/*@RequestMapping(value = "", method = RequestMethod.GET)
 	public Page listUtilisateur(@RequestParam(value = "page") int page) {
 		return utilisateurService.pagingEmploye(page);
 	}
+*/
 
-	@RequestMapping(value = "", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+	@PostMapping()
 	public Utilisateur addUtilisateur(@RequestBody Utilisateur utilisateur) {
-		return utilisateurService.addUser(utilisateur);
+		return utilisateurRepository.save(utilisateur);
 	}
 
-	@RequestMapping(value = "", method = RequestMethod.DELETE)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteUtilisateur(@RequestBody Utilisateur utilisateur) {
-		utilisateurService.deleteUser(utilisateur);
-	}
-
-
-	@RequestMapping(value = "{id}/tasks/count", method = RequestMethod.GET)
-	public int countTasks(@PathVariable(value = "id") int idUtilisateur) {
-		return utilisateurService.countTache(idUtilisateur);
-	}
-
-
-	@RequestMapping(value = "/{id}/tasks/", method = RequestMethod.GET)
-	public Page listTasks(@PathVariable(value = "id") int idUtilisateur, @RequestParam(value = "page", defaultValue = "0") int page) {
-		return utilisateurService.listTasksUtilisateur(idUtilisateur, page);
-	}
-
-	@RequestMapping(value = "/{id}/tasks/", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
-	public Tasks addTask(@PathVariable(value = "id") int id, @RequestBody Tasks tasks) {
-		return utilisateurService.newTasks(id, tasks);
-	}
-
-	@RequestMapping(value = "/{id}/tasks/{id_task}", method = RequestMethod.PUT, consumes = "application/json", produces = "application/json")
-	public Tasks updateTask(@PathVariable(value = "id") int id, @PathVariable(value = "id_task") int idTask, @RequestBody Tasks task) {
-		return utilisateurService.updateTask(idTask, task);
-	}
-
-	@RequestMapping(value = "/{id}/tasks/{id_task}", method = RequestMethod.DELETE)
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deleteTask(@PathVariable(value = "id") int idUtilisateur, @PathVariable(value = "id_task") int idTask) {
-		utilisateurService.suppTask(idUtilisateur, idTask);
+	@DeleteMapping("{id}")
+	public void deleteUtilisateur(@PathVariable(value = "id") int id) {
+		Utilisateur utilisateur = utilisateurRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Utilisateur", "id", id));
+		utilisateurRepository.delete(utilisateur);
 	}
 }

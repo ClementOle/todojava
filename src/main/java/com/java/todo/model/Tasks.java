@@ -1,67 +1,48 @@
 package com.java.todo.model;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.Objects;
 
+@Getter
+@Setter
+@NoArgsConstructor
 @Entity
 public class Tasks {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "tasks_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idTasks;
 
-	@Column(name = "tasks_text")
 	private String text;
 
-	@Column(name = "utilisateur_id")
-	private int idUtilisateur;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "utilisateur_id", foreignKey = @ForeignKey(name = "FK_UTILISATEUR"), nullable = false)
+	@JsonIgnoreProperties("listTasks")
+	private Utilisateur utilisateur;
 
-	public Tasks() {
-	}
-
-	public Tasks(String text, int idUtilisateur) {
+	public Tasks(String text, Utilisateur utilisateur) {
 		this.text = text;
-		this.idUtilisateur = idUtilisateur;
-	}
-
-	public int getIdTasks() {
-		return idTasks;
-	}
-
-	public void setIdTasks(int idTasks) {
-		this.idTasks = idTasks;
-	}
-
-	public String getText() {
-		return text;
-	}
-
-	public void setText(String text) {
-		this.text = text;
-	}
-
-	public int getIdUtilisateur() {
-		return idUtilisateur;
-	}
-
-	public void setIdUtilisateur(int idUtilisateur) {
-		this.idUtilisateur = idUtilisateur;
+		this.utilisateur = utilisateur;
 	}
 
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (!(o instanceof Tasks)) return false;
+		if (o == null || getClass() != o.getClass()) return false;
 		Tasks tasks = (Tasks) o;
 		return idTasks == tasks.idTasks &&
-				idUtilisateur == tasks.idUtilisateur &&
-				Objects.equals(text, tasks.text);
+				Objects.equals(text, tasks.text) &&
+				Objects.equals(utilisateur, tasks.utilisateur);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(idTasks, text, idUtilisateur);
+		return Objects.hash(idTasks, text, utilisateur);
 	}
 
 	@Override
@@ -69,7 +50,7 @@ public class Tasks {
 		return "Tasks{" +
 				"idTasks=" + idTasks +
 				", text='" + text + '\'' +
-				", idUtilisateur=" + idUtilisateur +
+				", utilisateur=" + utilisateur +
 				'}';
 	}
 }

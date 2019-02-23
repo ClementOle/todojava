@@ -6,7 +6,7 @@ const pseudo = document.getElementById("username");
 const mdp = document.getElementById("password");
 
 const deleteUser = document.getElementById("deleteUser");
-const idUtilisateur = document.getElementById("idUtilisateur");
+const idUtilisateur = document.getElementById("id");
 
 const idUser = document.getElementById("idUser");
 const listTask = document.getElementById("listTask");
@@ -100,7 +100,7 @@ $(document).ready(function () {
 	addTask.addEventListener('submit', function (ev) {
 		ev.preventDefault();
 		ev.stopPropagation();
-		//if (textTask.value != "" && idUtilisateur.value != "") {
+        //if (textTask.value != "" && id.value != "") {
 			let url = urlBase + "/" + idUtilisateurTask.value + "/tasks/";
 
 			let task = {

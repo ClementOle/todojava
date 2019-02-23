@@ -1,11 +1,8 @@
 package com.java.todo.repository;
 
 import com.java.todo.model.Utilisateur;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 
-public interface UtilisateurRepository extends PagingAndSortingRepository<Utilisateur, Integer> {
-	Utilisateur findByIdUtilisateur(int idUtilisateur);
-
-	Utilisateur findByUsernameAndPassword(String username, String password);
+public interface UtilisateurRepository extends JpaRepository<Utilisateur, Integer> {
 }
